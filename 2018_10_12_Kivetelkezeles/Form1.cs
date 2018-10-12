@@ -16,7 +16,48 @@ namespace _2018_10_12_Kivetelkezeles
         void Fajlkiiratas(string szoveg)
         {
             string Fajl_nev = TextBox_path.Text;
-            File.WriteAllText(Fajl_nev, szoveg);
+            // C:\ ELERESI UTVONAL \  -> VALAMI.txt
+            if (string.IsNullOrWhiteSpace(Fajl_nev))
+            {
+                throw new IOException("Fájl létrehozásakor érvénytelen fájlnév!");
+            }
+            // File.WriteAllText(Fajl_nev, szoveg);
+            // StreamWriter sw = new StreamWriter(Fajl_nev); UGYAN AZT JELENTI MINT AZ ALATTA LÉVŐ SOR
+            // StreamWriter sw = File.CreateText(Fajl_nev);
+            // StreamReader sr = new StreamReader(Fajl_nev);
+            // StreamReader sr = File.OpenText(Fajl_nev);
+            using (StreamWriter sw = File.CreateText(Fajl_nev))
+            {
+                sw.WriteLine(szoveg);
+                for (int i = 0; i < 10; i++)
+                {
+                    if (i == 5)
+                    {
+                        throw new IOException("Hálózati hiba történt!");
+                        // 5 elemet kiír utána kilép a program!
+                    }
+                    sw.WriteLine(i + ". sor");
+                }
+            }
+            /*
+            try
+            {
+                sw.WriteLine(szoveg);
+                for (int i = 0; i < 10; i++)
+                {
+                    if (i == 5)
+                    {
+                        throw new IOException("Hálózati hiba történt!");
+                        // 5 elemet kiír utána kilép a program!
+                    }
+                    sw.WriteLine(i + ". sor");
+                }
+            }
+            finally
+            {
+                sw.Close();
+            }
+            */
         }
 
         public Form_kivetelkezeles()
@@ -28,6 +69,7 @@ namespace _2018_10_12_Kivetelkezeles
                 try
                 {
                     Fajlkiiratas("Hello");
+                    MessageBox.Show("Sikeres kiíratás!");
                 }
                 catch (IOException ex)
                 {
@@ -37,10 +79,10 @@ namespace _2018_10_12_Kivetelkezeles
                 {
                     MessageBox.Show("Nem tudtam megnyitni!");
                 }
-                catch (ArgumentException ex)
+                /* catch (ArgumentException ex)
                 {
                     MessageBox.Show("A mező nem lehet üres!");
-                }
+                } */
             };
         }
     }
