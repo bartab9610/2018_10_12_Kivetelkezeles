@@ -31,12 +31,15 @@ namespace _2018_10_12_Kivetelkezeles
                 sw.WriteLine(szoveg);
                 for (int i = 0; i < 10; i++)
                 {
+                    /*
                     if (i == 5)
                     {
                         throw new IOException("Hálózati hiba történt!");
                         // 5 elemet kiír utána kilép a program!
                     }
-                    sw.WriteLine(i + ". sor");
+                    int tmp = 15 / (i - 3);
+                    */
+                    sw.WriteLine(i + ". sor"); //+ tmp);
                 }
             }
             /*
@@ -58,6 +61,21 @@ namespace _2018_10_12_Kivetelkezeles
                 sw.Close();
             }
             */
+        }
+
+        int FileBeolvasas(string File_nev)
+        {
+            using (StreamReader sr = File.OpenText(File_nev))
+            {
+                string cim = sr.ReadLine();
+                string sor;
+                int darab_Szam = 0;
+                while ((sor = sr.ReadLine()) != null)
+                {
+                    darab_Szam++;
+                }
+                return darab_Szam;
+            }
         }
 
         public Form_kivetelkezeles()
@@ -83,6 +101,12 @@ namespace _2018_10_12_Kivetelkezeles
                 {
                     MessageBox.Show("A mező nem lehet üres!");
                 } */
+            };
+
+            Button_open_file.Click += (sender, e) =>
+            {
+                int i = FileBeolvasas(TextBox_path.Text);
+                MessageBox.Show(i + " db sor");
             };
         }
     }
